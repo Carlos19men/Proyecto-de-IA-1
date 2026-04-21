@@ -1,6 +1,6 @@
-# Proyecto de Análisis y Predicción de Niveles de Ríos
+# Proyecto de Análisis y Predicción de Niveles del Río Orinoco
 
-Este proyecto se enfoca en el análisis de datos históricos y la creación de modelos predictivos para los niveles de los ríos, utilizando la metodología CRISP-DM para organizar el flujo de trabajo.
+Este proyecto se enfoca en el análisis de datos históricos y la creación de modelos predictivos para los niveles de los ríos, utilizando la metodología CRISP-DM del estandar de la minería de datos
 
 ## Estructura del Proyecto (CRISP-DM)
 
