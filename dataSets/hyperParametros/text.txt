@@ -1,3 +1,0 @@
-aquí pega todo lo que tenga que ver con los data set de los 
-hiperparametros y que aspectos pueden influir en el crecimiento 
-del rio 

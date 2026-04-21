@@ -1,2 +1,0 @@
-pega aquí todos los data set indentificados referentes a los puntos de 
-donde se realizaron las mediciones de cada uno y sus .csv 
