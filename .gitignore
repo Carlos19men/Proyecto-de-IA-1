@@ -1,0 +1,13 @@
+# Entornos virtuales (el tuyo y otros nombres comunes)
+.venv/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de Jupyter Notebook
+.ipynb_checkpoints/
+
+# Variables de entorno (donde guardas contraseñas/keys)
+.env

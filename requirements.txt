@@ -1,0 +1,6 @@
+# Análisis de datos y rendimiento
+polars>=1.0.0
+numpy>=1.26.0
+
+# Entorno de desarrollo
+jupyterlab>=4.0.0
