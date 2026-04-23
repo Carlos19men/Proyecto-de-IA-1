@@ -1,0 +1,12 @@
+
+Apuntes temporales y planteamientos 
+
+requisitos metas establecidads
+predecir con 1 mes de datos los proximos 3 dias
+
+
+
+Parametros
+
+año, mes, dia, ayacucho, caicara, ciudad_bolivar, palua, precipitacion_mm, temp_media, humedad_especifica, humedad_suelo, valor_del_niño, evapotranspiracion 
+    año, mes, dia, ayacucho, caicara, ciudad_bolivar, palua, precipitacion_mm_ciudad_bolivar, temp_media_c_ciudad_bolivar, humedad_especifica_ciudad_bolivar, humedad_suelo_ciudad_bolivar, precipitacion_mm_caicara, temp_media_c_caicara, humedad_especifica_caicara, humedad_suelo_caicara, precipitacion_mm_ayacucho, temp_media_c_ayacucho, humedad_especifica_ayacucho, humedad_suelo_ayacucho, precipitacion_mm_palua, temp_media_c_palua, humedad_especifica_palua, humedad_suelo_palua, evapotranpiracion_mm_ciudad_bolivar, evapotranpiracion_mm_caicara, evapotranpiracion_mm_ayacucho, evapotranpiracion_mm_palua
