@@ -5,6 +5,10 @@ requisitos metas establecidads
 predecir con 1 mes de datos los proximos 3 dias, es decir, con 100% buscamos precedecir el proximo 10%
 
 
+fuentes
+* data set de wilter
+* datos de la NASA POWERNASA
+
 Parametros
 
 año, mes, dia, ayacucho, caicara, ciudad_bolivar, palua, precipitacion_mm, temp_media, humedad_especifica, humedad_suelo, valor_del_niño, evapotranspiracion 
