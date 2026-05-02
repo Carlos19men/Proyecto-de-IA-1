@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 
 
-modelo = keras.saving.load_model('../modelo_orinoco_multi.keras')
+modelo = keras.saving.load_model('predictinador3000.keras')
 
 print("1. Cargando y preparando datos...")
-df = pd.read_csv('../../../data/raw/data_set_1/dataset_orinoco_multivariado_final_copy.csv', parse_dates=['fecha']).sort_values('fecha').set_index('fecha')
+df = pd.read_csv('../data/raw/data_set_1/dataset_orinoco_multivariado_final_copy.csv', parse_dates=['fecha']).sort_values('fecha').set_index('fecha')
 df = df.ffill().bfill()
 
 # === AGREGAR: Características cíclicas (día, mes, año) ===
@@ -94,7 +94,7 @@ y_test = y[val_split:]
 
 #X_train, X_test = X[:split_index], X[split_index:]
 #y_train, y_test = y[:split_index], y[split_index:]
-fechas_test = df.index[LONGITUD + val_split:val_split + len(X_test)]
+fechas_test = df.index[LONGITUD + val_split:LONGITUD + val_split + len(X_test)]
 
 print(f"   Train: {X_train.shape[0]}, Val: {X_val.shape[0]}, Test: {X_test.shape[0]} muestras")
 
@@ -126,18 +126,56 @@ for i, ciudad in enumerate(ciudades):
         'fechas': fechas_test
     }
 
-print("6. Generando gráficos...")
-dias_a_graficar = 730
-fin =365
+
+# --- 6. Filtrado por fechas, métricas y gráficos ---
+print("\n6. Generando métricas y gráficos...")
+
+# Parámetros para establecer fechas de prueba (puedes cambiar estas fechas)
+# Por defecto usamos todo el rango disponible en test
+fecha_inicio_prueba = fechas_test[0].strftime('%Y-%m-%d')
+fecha_fin_prueba = fechas_test[-1].strftime('%Y-%m-%d')
+
+print(f"Rango total disponible en test: {fecha_inicio_prueba} a {fecha_fin_prueba}")
+
+# Puedes descomentar y modificar estas líneas para probar un rango de fechas específico:
+fecha_inicio_prueba = '2024-11-30'
+fecha_fin_prueba = '2024-12-31'
+print(f"Evaluando el periodo: {fecha_inicio_prueba} a {fecha_fin_prueba}")
 
 for ciudad in ciudades:
+    # Crear un DataFrame con los resultados para facilitar el filtrado
+    df_res = pd.DataFrame({
+        'real': resultados[ciudad]['real'],
+        'pred': resultados[ciudad]['pred']
+    }, index=resultados[ciudad]['fechas'])
     
+    # Filtrar por el rango de fechas establecido
+    df_filtrado = df_res.loc[fecha_inicio_prueba:fecha_fin_prueba]
+    
+    if df_filtrado.empty:
+        print(f"\nAdvertencia: No hay datos para {ciudad} en el rango de fechas especificado.")
+        continue
+
+    # Calcular métricas e indicar rango de éxito
+    errores = np.abs(df_filtrado['real'] - df_filtrado['pred'])
+    mae = np.mean(errores)
+    rmse = np.sqrt(np.mean(errores**2))
+    
+    # Definimos el "rango de éxito" como el porcentaje de predicciones con error <= 0.5m y <= 1.0m
+    exito_05m = np.mean(errores <= 0.5) * 100
+    exito_10m = np.mean(errores <= 1.0) * 100
+
+    print(f"\n=== Resultados para {ciudad.upper()} ({len(df_filtrado)} días) ===")
+    print(f"  - MAE (Error promedio absoluto): {mae:.2f} m")
+    print(f"  - RMSE: {rmse:.2f} m")
+    print(f"  - RANGO DE ÉXITO (error <= 0.5m): {exito_05m:.1f}% de las predicciones")
+    print(f"  - RANGO DE ÉXITO (error <= 1.0m): {exito_10m:.1f}% de las predicciones")
+
+    # Generar gráfico para el rango seleccionado
     plt.figure(figsize=(15, 6))
-    plt.plot(fechas_test[-dias_a_graficar:-fin], resultados[ciudad]['real'][-dias_a_graficar:-fin], 
-            label=f'Nivel Real ({ciudad})', color='blue')
-    plt.plot(fechas_test[-dias_a_graficar:-fin], resultados[ciudad]['pred'][-dias_a_graficar:-fin], 
-            label=f'Predicción Transformer', color='red', linestyle='--')
-    plt.title(f'Predicción del Nivel del Río Orinoco - {ciudad.upper()} (Último Año de Prueba)')
+    plt.plot(df_filtrado.index, df_filtrado['real'], label=f'Nivel Real ({ciudad})', color='blue')
+    plt.plot(df_filtrado.index, df_filtrado['pred'], label=f'Predicción Transformer', color='red', linestyle='--')
+    plt.title(f'Predicción del Río Orinoco - {ciudad.upper()}\nPeriodo: {fecha_inicio_prueba} a {fecha_fin_prueba} | Éxito(<=0.5m): {exito_05m:.1f}%')
     plt.xlabel('Fecha')
     plt.ylabel('Nivel (m)')
     plt.legend()
@@ -147,10 +185,11 @@ for ciudad in ciudades:
     plt.close()
     print(f"   → Gráfico guardado: prediccion_orinoco_{ciudad}.png")
 
-print("7. Guardando modelo...")
-modelo.save('modelo_orinoco_multi.keras')
-print("   → Modelo guardado: modelo_orinoco_multi.keras")
-
+#
+#print("7. Guardando modelo...")
+#modelo.save('modelo_orinoco_multi.keras')
+#print("   → Modelo guardado: modelo_orinoco_multi.keras")
+#
 print("\n=== Entrenamiento completado ===")
 print("Archivos generados:")
 for ciudad in ciudades:

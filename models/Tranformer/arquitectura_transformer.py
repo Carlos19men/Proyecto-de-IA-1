@@ -50,7 +50,7 @@ def bloque_transformer(inputs, dimension_cabezal, num_cabezales, dimension_densa
 
 # 3. Construcción Completa del Modelo
 def construir_modelo_orinoco(longitud_secuencia, num_variables):
-    # La entrada será (30 días, cantidad de variables como precipitación, nivel, etc)
+    # La entrada será (60 días, cantidad de variables como precipitación, nivel, etc)
     inputs = keras.Input(shape=(longitud_secuencia, num_variables))
 
     # Proyectamos nuestras variables iniciales a un espacio más grande (ej. 64 dimensiones)
@@ -81,9 +81,9 @@ def construir_modelo_orinoco(longitud_secuencia, num_variables):
 
 # 4. Prueba Rápida de la Arquitectura
 if __name__ == "__main__":
-    # Suponiendo que tu ventana es de 30 días y tienes 8 variables en tu CSV
-    LONGITUD = 30
-    VARIABLES = 8 
+    # Suponiendo que tu ventana es de 60 días y tienes 8 variables en tu CSV
+    LONGITUD = 60
+    VARIABLES = 4
 
     modelo = construir_modelo_orinoco(LONGITUD, VARIABLES)
     modelo.summary()

@@ -12,7 +12,7 @@ from sklearn.preprocessing import MinMaxScaler
 from arquitectura_transformer import construir_modelo_orinoco
 
 print("1. Cargando y preparando datos...")
-df = pd.read_csv('data/raw/data_set_1/dataset_orinoco_multivariado_final_copy.csv', parse_dates=['fecha']).sort_values('fecha').set_index('fecha')
+df = pd.read_csv('../../data/raw/data_set_1/dataset_orinoco_multivariado_final_copy.csv', parse_dates=['fecha']).sort_values('fecha').set_index('fecha')
 df = df.ffill().bfill()
 
 # === AGREGAR: Características cíclicas (día, mes, año) ===
